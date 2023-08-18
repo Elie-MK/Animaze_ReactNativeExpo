@@ -71,7 +71,7 @@ const Description = ({ navigation, route }) => {
     console.log("Selected season:", dataSeason[selectedIndex]?.titleSeason);
     setChoosenLabel(dataSeason[selectedIndex]?.titleSeason);
     setDataEpisode(dataSeason[selectedIndex]?.episodes);
-    setChoosenIndex(selectedIndex); // Mettre à jour l'index choisi en fonction de la sélection
+    setChoosenIndex(selectedIndex); 
   };
 
   const handlePickerChange = (newValue) => {
