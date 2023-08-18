@@ -1,4 +1,4 @@
-import { View, Text, Pressable, Image } from "react-native";
+import { View, Text, Pressable, Image, ActivityIndicator } from "react-native";
 import React, { useEffect, useState } from "react";
 import {
   FontAwesome,
@@ -48,34 +48,43 @@ const Description = ({ navigation, route }) => {
   };
 
   useEffect(() => {
-    const fecthSeason = async () => {
+    const fetchSeason = async () => {
       try {
         const datas = await Season();
         setDataSeason(datas);
+
+        setPickerData(datas);
+        setDataEpisode(datas[0]?.episodes);
+        setChoosenLabel(datas[0]?.titleSeason);
+        setChoosenIndex(0);
+
+        setStar(item.star);
       } catch (error) {
         console.log(error);
       }
     };
 
-    fecthSeason();
+    fetchSeason();
+  }, []);
 
-    setPickerData(dataSeason);
-
-    setDataEpisode(dataSeason[0]?.episodes);
-    setChoosenIndex(dataSeason[0]?.titleSeason);
-    setChoosenLabel(dataSeason[0]?.titleSeason);
-
-    setStar(item.star);
-  }, [dataSeason]);
-
-  const handleSelectChange = (itemValue) => {
-    if (choosenIndex !== itemValue) {
-      setDataEpisode(dataSeason[itemValue]?.episodes);
-      setChoosenLabel(dataSeason[itemValue]?.titleSeason);
-    }
-    setChoosenIndex(itemValue);
+  const handleSelectChange = (selectedIndex) => {
+    console.log("Selected season:", dataSeason[selectedIndex]?.titleSeason);
+    setChoosenLabel(dataSeason[selectedIndex]?.titleSeason);
+    setDataEpisode(dataSeason[selectedIndex]?.episodes);
+    setChoosenIndex(selectedIndex); // Mettre à jour l'index choisi en fonction de la sélection
   };
-  // console.log(choosenIndex);
+
+  const handlePickerChange = (newValue) => {
+    const selectedIndex = pickerData.findIndex(
+      (item) => item.titleSeason === newValue
+    );
+    if (selectedIndex !== -1) {
+      handleSelectChange(selectedIndex);
+    }
+  };
+
+  
+
   return (
     <View style={{ backgroundColor: Color.primary.three, height: "100%" }}>
       <View>
@@ -232,8 +241,8 @@ const Description = ({ navigation, route }) => {
           }}
         >
           <Picker
-            selectedValue={choosenIndex}
-            onValueChange={handleSelectChange}
+            selectedValue={pickerData[choosenIndex]?.titleSeason}
+            onValueChange={handlePickerChange}
           >
             {pickerData?.map((item, index) => (
               <Picker.Item
@@ -246,7 +255,12 @@ const Description = ({ navigation, route }) => {
         </View>
       </BottomSheet>
 
-      <FlatList
+      {
+        dataEpisode.length < 1 && (
+<ActivityIndicator size="large" color={Color.primary.one} />        )
+      }{
+        dataEpisode.length>=1 && (
+          <FlatList
         data={dataEpisode}
         style={{ flex: 1, marginLeft: 10 }}
         showsVerticalScrollIndicator={false}
@@ -258,6 +272,8 @@ const Description = ({ navigation, route }) => {
           />
         )}
       />
+        )
+      }
     </View>
   );
 };
