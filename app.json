@@ -2,12 +2,12 @@
   "expo": {
     "name": "animaze",
     "slug": "animaze",
-    "version": "1.0.0",
+    "version": "1.0.4",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "icon": "https://static.vecteezy.com/ti/vecteur-libre/p1/7983093-cute-eye-cartoon-logo-design-template-company-logo-concept-vector-icon-blue-black-ellipse-vectoriel.jpg",
+    "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "https://static.vecteezy.com/ti/vecteur-libre/p1/7983093-cute-eye-cartoon-logo-design-template-company-logo-concept-vector-icon-blue-black-ellipse-vectoriel.jpg",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -25,6 +25,17 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "95cc7b82-6c6b-4892-afa3-777e4664f6eb"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/95cc7b82-6c6b-4892-afa3-777e4664f6eb"
     }
   }
 }

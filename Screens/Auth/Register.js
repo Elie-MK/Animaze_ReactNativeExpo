@@ -1,28 +1,54 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, Alert } from "react-native";
 import React, { useState } from "react";
 import { Color } from "../../utilities/Color";
 import { Image } from "react-native";
 import { Button, Input } from "@rneui/base";
 import { SafeAreaView } from "react-native";
 import CustomAlert from "../../Components/CustomAlert";
+import { signUp } from "../../Api";
+import { ActivityIndicator } from "react-native";
 
 const Register = ({ navigation }) => {
   const [show, setShow] = useState(true);
   const [showAlert, setShowAlert] = useState(false);
-  const [email, setEmail]=useState('')
-  const [password, setPassword]=useState('')
-  const [username, setUsername]=useState('')
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
+  const [value, setValue] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const onSubmit = ()=>{
-    if(email===""||password===""||username===""){
-      setShowAlert(true)
-    }else{
-      navigation.navigate("login")
+  const validateEmail = (email) => {
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    return emailRegex.test(email);
+  };
+
+  const onSubmit = async () => {
+    if (email === "" || password === "" || username === "") {
+      setShowAlert(true);
+      setValue("Veuillez remplir tous les champs.");
+    } else if (!validateEmail(email)) {
+      setValue("L'adresse email n'est pas valide.");
+      setShowAlert(true);
+    } else {
+      try {
+        const user = await signUp(username, email, password);
+        navigation.navigate("login");
+        setTimeout(function () {
+          setIsLoading(!isLoading);
+        }, 2000);
+        console.log(user);
+      } catch (error) {
+        setShowAlert(true);
+        setValue("Veuillez changer votre email ou adresse email");
+        setIsLoading(false);
+        console.log(error);
+      }
     }
-  }
+  };
   const closeAlert = () => {
     setShowAlert(false);
   };
+
   return (
     <SafeAreaView
       style={{ backgroundColor: Color.primary.three, height: "100%" }}
@@ -41,7 +67,7 @@ const Register = ({ navigation }) => {
         <View>
           <Input
             placeholder="Username"
-            onChangeText={(e)=>setUsername(e)}
+            onChangeText={(e) => setUsername(e)}
             inputStyle={{ marginLeft: 10 }}
             leftIconContainerStyle={{ marginLeft: 10 }}
             leftIcon={{
@@ -60,7 +86,7 @@ const Register = ({ navigation }) => {
         <View>
           <Input
             placeholder="Email"
-            onChangeText={(e)=>setEmail(e)}
+            onChangeText={(e) => setEmail(e)}
             inputStyle={{ marginLeft: 10 }}
             leftIconContainerStyle={{ marginLeft: 10 }}
             leftIcon={{
@@ -79,7 +105,7 @@ const Register = ({ navigation }) => {
         <View>
           <Input
             placeholder="Password"
-            onChangeText={(e)=>setPassword(e)}
+            onChangeText={(e) => setPassword(e)}
             inputStyle={{ marginLeft: 12 }}
             leftIconContainerStyle={{ marginLeft: 10 }}
             leftIcon={{
@@ -117,6 +143,7 @@ const Register = ({ navigation }) => {
           <Button
             onPress={onSubmit}
             title="Sign up"
+            disabled={isLoading}
             titleStyle={{ fontSize: 20 }}
             buttonStyle={{
               width: 340,
@@ -125,6 +152,10 @@ const Register = ({ navigation }) => {
               backgroundColor: Color.primary.one,
             }}
           />
+
+          {isLoading && (
+            <ActivityIndicator size="large" color={Color.primary.one} />
+          )}
         </View>
         <View style={{ flexDirection: "row", gap: 20, marginTop: "5%" }}>
           <Text style={{ color: Color.secondary.one }}>____________</Text>
@@ -202,11 +233,7 @@ const Register = ({ navigation }) => {
           </TouchableOpacity>
         </View>
       </View>
-      <CustomAlert
-        visible={showAlert}
-        message="Veuillez remplir tous les champs."
-        onClose={closeAlert}
-      />
+      <CustomAlert visible={showAlert} message={value} onClose={closeAlert} />
     </SafeAreaView>
   );
 };

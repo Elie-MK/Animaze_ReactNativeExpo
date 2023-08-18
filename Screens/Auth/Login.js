@@ -1,29 +1,61 @@
-import { View, Text, TouchableOpacity, Image } from "react-native";
+import { View, Text, TouchableOpacity, Image, Alert } from "react-native";
 import React, { useState } from "react";
 import { Color } from "../../utilities/Color";
 import { SafeAreaView } from "react-native";
 import { Button, CheckBox, Input } from "@rneui/base";
 import CustomAlert from "../../Components/CustomAlert";
+import { signIn } from "../../Api";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { ActivityIndicator } from "react-native";
 
 const Login = ({ navigation }) => {
-    const [checked, setChecked] = useState(false);
-    const [show, setShow] = useState(true);
-    const [email, setEmail]=useState('')
-    const [password, setPassword]=useState('')
-    const [showAlert, setShowAlert] = useState(false);
+  const [checked, setChecked] = useState(false);
+  const [show, setShow] = useState(true);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showAlert, setShowAlert] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [value, setValue] = useState("");
 
+  const validateEmail = (email) => {
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    return emailRegex.test(email);
+  };
 
-    const onSubmit = ()=>{
-        if(email===""||password===""){
-            setShowAlert(true);
-        }else{
-            navigation.navigate("login")
+  const onSubmit = async () => {
+    if (email === "" || password === "") {
+      setShowAlert(true);
+      setValue("Veuillez remplir tous les champs.");
+    } else if (!validateEmail(email)) {
+      setValue("L'adresse email n'est pas valide.");
+      setShowAlert(true);
+    } else {
+      try {
+        setTimeout(() => {
+          setIsLoading(!isLoading);
+        }, 2000);
+        const response = await signIn(email, password);
+        console.log(response);
+        if (response && response.token) {
+          const token = response.token;
+
+          await AsyncStorage.setItem("jwtToken", token);
+          navigation.replace(" ");
         }
+      } catch (error) {
+        isLoading(false);
+        setValue(
+          "Connexion échouée, verifiez votre mot de passe ou adresse email"
+        );
+        setShowAlert(true);
+        console.log(error);
+      }
     }
+  };
 
-    const closeAlert = () => {
-        setShowAlert(false);
-      };
+  const closeAlert = () => {
+    setShowAlert(false);
+  };
   return (
     <SafeAreaView
       style={{ backgroundColor: Color.primary.three, height: "100%" }}
@@ -38,11 +70,12 @@ const Login = ({ navigation }) => {
           Please sign in to continue our app
         </Text>
       </View>
+
       <View style={{ alignItems: "center", marginTop: "15%" }}>
         <View>
           <Input
             placeholder="Email"
-            onChangeText={(e)=>setEmail(e)}
+            onChangeText={(e) => setEmail(e)}
             inputStyle={{ marginLeft: 10 }}
             textContentType="emailAddress"
             leftIconContainerStyle={{ marginLeft: 10 }}
@@ -62,7 +95,7 @@ const Login = ({ navigation }) => {
         <View>
           <Input
             placeholder="Password"
-            onChangeText={(e)=>setPassword(e)}
+            onChangeText={(e) => setPassword(e)}
             inputStyle={{ marginLeft: 12 }}
             leftIconContainerStyle={{ marginLeft: 10 }}
             leftIcon={{
@@ -71,24 +104,20 @@ const Login = ({ navigation }) => {
               color: Color.secondary.two,
               size: 30,
             }}
-            
             rightIcon={
-                show?(
-                    {
-                        type: "font-awesome",
-                        name: "eye-slash",
-                        color: Color.secondary.two,
-                        onPress:()=>setShow(!show)
-                      }
-                ):(
-                    {
-                        type: "font-awesome",
-                        name: "eye",
-                        color: Color.secondary.two,
-                        onPress:()=>setShow(!show)
-                    }
-                )
-                
+              show
+                ? {
+                    type: "font-awesome",
+                    name: "eye-slash",
+                    color: Color.secondary.two,
+                    onPress: () => setShow(!show),
+                  }
+                : {
+                    type: "font-awesome",
+                    name: "eye",
+                    color: Color.secondary.two,
+                    onPress: () => setShow(!show),
+                  }
             }
             secureTextEntry={show}
             inputContainerStyle={{
@@ -127,6 +156,7 @@ const Login = ({ navigation }) => {
           <Button
             onPress={onSubmit}
             title="Sign in"
+            disabled={isLoading}
             titleStyle={{ fontSize: 20 }}
             buttonStyle={{
               width: 340,
@@ -135,6 +165,9 @@ const Login = ({ navigation }) => {
               backgroundColor: Color.primary.one,
             }}
           />
+          {isLoading && (
+            <ActivityIndicator size="large" color={Color.primary.one} />
+          )}
         </View>
         <View style={{ flexDirection: "row", gap: 20, marginTop: "5%" }}>
           <Text style={{ color: Color.secondary.one }}>____________</Text>
@@ -194,7 +227,7 @@ const Login = ({ navigation }) => {
             }}
           >
             <Image
-              style={{ padding: 10}}
+              style={{ padding: 10 }}
               resizeMode="contain"
               source={{
                 uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/1024px-Facebook_Logo_%282019%29.png",
@@ -203,19 +236,17 @@ const Login = ({ navigation }) => {
             />
           </TouchableOpacity>
         </View>
-        <View style={{flexDirection:"row", marginTop:30, gap:10}}>
-            <Text style={{color:Color.primary.Four}}>Don't have an account?</Text>
-            <TouchableOpacity onPress={()=>navigation.navigate('register')}>
-            <Text style={{color:Color.primary.one}}>Sign Up</Text>
-            </TouchableOpacity>
+        <View style={{ flexDirection: "row", marginTop: 30, gap: 10 }}>
+          <Text style={{ color: Color.primary.Four }}>
+            Don't have an account?
+          </Text>
+          <TouchableOpacity onPress={() => navigation.navigate("register")}>
+            <Text style={{ color: Color.primary.one }}>Sign Up</Text>
+          </TouchableOpacity>
         </View>
       </View>
 
-      <CustomAlert
-        visible={showAlert}
-        message="Veuillez remplir tous les champs."
-        onClose={closeAlert}
-      />
+      <CustomAlert visible={showAlert} message={value} onClose={closeAlert} />
     </SafeAreaView>
   );
 };

@@ -34,6 +34,7 @@ const styles = StyleSheet.create({
   message: {
     fontSize: 16,
     marginBottom: 15,
+    textAlign:"center"
   },
   okButton: {
     backgroundColor: Color.primary.one,

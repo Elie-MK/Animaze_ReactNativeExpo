@@ -7,13 +7,32 @@ import { StatusBar } from "expo-status-bar";
 import Database from "../bd";
 import Carousel, { ParallaxImage } from "react-native-snap-carousel";
 import { Dimensions } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Welcome = ({ navigation }) => {
   const [dataCarousel, setDataCarousel] = useState([]);
   useEffect(() => {
     const datas = Database.find((data) => data.type === "carousel");
     setDataCarousel(datas.datas);
-  }, []);
+
+    const checkToken = async () => {
+      try {
+        const token = await AsyncStorage.getItem('jwtToken');
+        
+        if (token) {
+          navigation.replace(' ');
+        } else {
+          // Aucun jeton JWT trouvé, naviguer vers la page 'welcome'
+          navigation.navigate('welcome');
+        }
+      } catch (error) {
+        console.error('Erreur lors de la vérification du jeton JWT:', error);
+      }
+    };
+
+    checkToken();
+  }, [navigation]);
+
   const { fontPoppins, fontsLoaded } = useCustomFonts();
   if (!fontsLoaded) {
     return null;

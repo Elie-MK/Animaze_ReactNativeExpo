@@ -6,27 +6,76 @@ import {
   MaterialIcons,
 } from "@expo/vector-icons";
 import { Color } from "../utilities/Color";
-import { Divider } from "@rneui/base";
-import { Picker } from "@react-native-picker/picker";
+import { BottomSheet, Button, Divider } from "@rneui/base";
 import EpisodeItem from "../Components/EpisodeItem";
-import { ScrollView } from "react-native";
 import { FlatList } from "react-native";
+import { Picker } from "@react-native-picker/picker";
+import StarRating from "../Components/StarRating";
+import { useDispatch, useSelector } from "react-redux";
+import { addLike, deleteLike } from "../redux/redux";
+import { Episode, Season } from "../Api";
 
 const Description = ({ navigation, route }) => {
-  const [selectedValue, setSelectedValue] = useState("option1");
-  const [dataEpisode, setDataEpisode] = useState([]);
   const { item } = route.params;
-  // console.log(item);
+  // const { id } = item;
 
-  const handleValueChange = (itemValue, itemIndex) => {
-    setSelectedValue(itemValue);
+  const [star, setStar] = useState(1);
+  const [dataEpisode, setDataEpisode] = useState([]);
+  const [dataSeason, setDataSeason] = useState([]);
+  const [dataApiEpisode, setDataApiEpisode] = useState([]);
+  const [pickerData, setPickerData] = useState([]);
+
+  const [choosenLabel, setChoosenLabel] = useState("");
+  const [choosenIndex, setChoosenIndex] = useState(0);
+  const [visible, setVisible] = useState(false);
+
+  const dispatch = useDispatch();
+  const favstate = useSelector((state) => state.fav);
+  const [fav, setFav] = useState(
+    favstate.find((data) => data?.detail?.id == item._id) ? true : false
+  );
+
+  const handleFav = () => {
+    fav
+      ? dispatch(deleteLike(item._id))
+      : dispatch(
+          addLike({
+            qte: 1,
+            detail: { img: item?.img, title: item.titleAnime, id: item._id },
+          })
+        );
+    setFav(!fav);
   };
 
   useEffect(() => {
-    setDataEpisode(item.animeSeasons[0].episodes);
-  }, []);
+    const fecthSeason = async () => {
+      try {
+        const datas = await Season();
+        setDataSeason(datas);
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
-  console.log(dataEpisode);
+    fecthSeason();
+
+    setPickerData(dataSeason);
+
+    setDataEpisode(dataSeason[0]?.episodes);
+    setChoosenIndex(dataSeason[0]?.titleSeason);
+    setChoosenLabel(dataSeason[0]?.titleSeason);
+
+    setStar(item.star);
+  }, [dataSeason]);
+
+  const handleSelectChange = (itemValue) => {
+    if (choosenIndex !== itemValue) {
+      setDataEpisode(dataSeason[itemValue]?.episodes);
+      setChoosenLabel(dataSeason[itemValue]?.titleSeason);
+    }
+    setChoosenIndex(itemValue);
+  };
+  // console.log(choosenIndex);
   return (
     <View style={{ backgroundColor: Color.primary.three, height: "100%" }}>
       <View>
@@ -54,13 +103,21 @@ const Description = ({ navigation, route }) => {
             <MaterialIcons name="keyboard-arrow-left" size={40} />
           </Pressable>
           <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
-            <View>
-              <FontAwesome
-                name="bookmark-o"
-                size={30}
-                color={Color.primary.Four}
-              />
-            </View>
+            <Pressable onPress={handleFav}>
+              {fav ? (
+                <FontAwesome
+                  name="bookmark"
+                  size={30}
+                  color={Color.primary.one}
+                />
+              ) : (
+                <FontAwesome
+                  name="bookmark-o"
+                  size={30}
+                  color={Color.primary.Four}
+                />
+              )}
+            </Pressable>
             <View>
               <MaterialCommunityIcons
                 name="dots-horizontal"
@@ -85,6 +142,8 @@ const Description = ({ navigation, route }) => {
                 fontSize: 25,
                 color: Color.primary.one,
                 fontWeight: "bold",
+                width: 250,
+                textAlign: "justify",
               }}
             >
               {item.titleAnime}
@@ -97,14 +156,10 @@ const Description = ({ navigation, route }) => {
             <View
               style={{ flexDirection: "row", alignItems: "center", gap: 5 }}
             >
-              <FontAwesome name="star" size={20} color={"yellow"} />
-              <FontAwesome name="star" size={20} color={"yellow"} />
-              <FontAwesome name="star" size={20} color={"yellow"} />
-              <FontAwesome name="star" size={20} color={"yellow"} />
-              <FontAwesome name="star" size={20} color={"gray"} />
+              <StarRating star={item.stars} />
             </View>
             <Text style={{ color: Color.primary.Four }}>
-              Average {item.star}
+              Average {item.stars}
             </Text>
           </View>
         </View>
@@ -121,7 +176,6 @@ const Description = ({ navigation, route }) => {
             {item.desc}
           </Text>
           <Divider />
-
           <View>
             <Text
               style={{
@@ -135,11 +189,13 @@ const Description = ({ navigation, route }) => {
             </Text>
             <View>
               <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <MaterialIcons
-                  name="arrow-drop-down"
-                  size={40}
-                  color={Color.primary.Four}
-                />
+                <Pressable onPress={() => setVisible(!visible)}>
+                  <MaterialIcons
+                    name="arrow-drop-down"
+                    size={40}
+                    color={Color.primary.Four}
+                  />
+                </Pressable>
                 <Text
                   style={{
                     color: Color.primary.Four,
@@ -147,33 +203,61 @@ const Description = ({ navigation, route }) => {
                     fontSize: 15,
                   }}
                 >
-                  Season {item.animeSeasons[0].id} :{" "}
-                  {item.animeSeasons[0].titleSeason} (
-                  {item.animeSeasons[0].numberEpisodes})
+                  Season : {choosenLabel}
                 </Text>
               </View>
+
               <Divider />
             </View>
           </View>
         </View>
       </View>
-         
-         {
-            <FlatList
-              data={dataEpisode}
-              style={{flex:1, marginLeft:20}}
-              showsVerticalScrollIndicator={false}
-              keyExtractor={(item) => item.id.toString()} 
-              renderItem={({ item }) => (
-                <EpisodeItem
-                  titleEpisode={item.titleEpisode}
-                  videoUri={item.link}
-                  img={item.img}
-                />
-              )}
-            
-            />
-          }
+      <BottomSheet
+        isVisible={visible}
+        onBackdropPress={() => setVisible(!visible)}
+      >
+        <View>
+          <Button
+            title="Done"
+            color={Color.primary.one}
+            onPress={() => setVisible(!visible)}
+          />
+        </View>
+        <View
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            flexDirection: "column",
+            backgroundColor: "white",
+          }}
+        >
+          <Picker
+            selectedValue={choosenIndex}
+            onValueChange={handleSelectChange}
+          >
+            {pickerData?.map((item, index) => (
+              <Picker.Item
+                label={item?.titleSeason}
+                value={item?.titleSeason}
+                key={index}
+              />
+            ))}
+          </Picker>
+        </View>
+      </BottomSheet>
+
+      <FlatList
+        data={dataEpisode}
+        style={{ flex: 1, marginLeft: 10 }}
+        showsVerticalScrollIndicator={false}
+        renderItem={({ item }) => (
+          <EpisodeItem
+            titleEpisode={item?.titleEpisode}
+            img={item?.imgEpisode}
+            nav={() => navigation.navigate("videoplayer", { item })}
+          />
+        )}
+      />
     </View>
   );
 };

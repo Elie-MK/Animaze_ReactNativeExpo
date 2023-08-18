@@ -8,7 +8,7 @@ export function useVideoContext() {
 }
 
 export function VideoProvider({ children }) {
-  const [currentVideo, setCurrentVideo] = useState(null);
+  const [currentVideo, setCurrentVideo] = useState("");
 
   return (
     <VideoContext.Provider value={{ currentVideo, setCurrentVideo }}>

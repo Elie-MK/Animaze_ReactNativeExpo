@@ -9,20 +9,20 @@ import { Searchbar } from "react-native-paper";
 import { Entypo, Feather } from '@expo/vector-icons'
 
 
-const topNavigation = () => {
+const TopNavigation = ({navigation}) => {
   const Top = createMaterialTopTabNavigator();
   const [show, setShow] = useState(false);
 
   return (
     <>
       <SafeAreaView style={{ marginLeft: 25 }}>
-        <View style={{ flexDirection: "row", gap: "200%" }}>
+        <View style={{ flexDirection: "row", justifyContent:"space-between", marginRight: 25 }}>
           <View>
             <Text style={{ color: Color.primary.one, fontSize: 25 }}>
               Animaze
             </Text>
           </View>
-          <Pressable onPress={() => setShow(!show)}>
+          <Pressable onPress={()=>navigation.navigate('search')}>
               <View>
                 <Feather name="search" color={"white"} size={30} />
               </View>
@@ -71,4 +71,4 @@ const topNavigation = () => {
   );
 };
 
-export default topNavigation;
+export default TopNavigation;
