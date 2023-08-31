@@ -35,7 +35,7 @@ const Search = ({navigation}) => {
   const theme = useColorScheme();
 
 
-  console.log(posts);
+  // console.log(posts);
   return (
     <SafeAreaView style={{ backgroundColor: theme === "dark" ? Color.primary.three:Color.primary.Four, flex: 1 }}>
       <View style={{ marginLeft: 25, marginRight: 25 }}>
