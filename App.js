@@ -14,6 +14,8 @@ import Categories from "./Pages/Categories";
 import Search from "./Pages/Search";
 import Editprofile from "./Pages/profileEdit/Editprofile";
 import Language from "./Pages/profileEdit/Language/Language";
+import { StatusBar, useColorScheme } from "react-native";
+import { Color } from "./utilities/Color";
 
 
 
@@ -21,10 +23,14 @@ import Language from "./Pages/profileEdit/Language/Language";
 const Stack = createStackNavigator();
 
 export default function App() {
+  const theme = useColorScheme();
+
   return (
     <Provider store={store}>
     <VideoProvider>
-    <NavigationContainer>
+    <NavigationContainer >
+    <StatusBar barStyle={theme === "dark" ? Color.primary.three : Color.primary.Four} />
+
       <Stack.Navigator initialRouteName="">
         <Stack.Screen name="welcome" component={Welcome} options={{
           headerShown:false

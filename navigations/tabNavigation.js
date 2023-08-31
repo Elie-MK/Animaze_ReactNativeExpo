@@ -8,18 +8,19 @@ import Genres from "../Screens/genres/Genres";
 import Account from "../Screens/account/Account";
 import { AntDesign, Entypo, Feather, FontAwesome, SimpleLineIcons } from "@expo/vector-icons";
 import { Color } from "../utilities/Color";
+import { useColorScheme } from "react-native";
 import topNavigation from "./topNavigation";
 
 const Tab = createBottomTabNavigator();
-
 const TabNavigation = () => {
+  const theme = useColorScheme()
   return (
     <Tab.Navigator sceneContainerStyle={{
-      backgroundColor:Color.primary.three
+      backgroundColor: theme === "dark" ? Color.primary.three : Color.primary.Four
     }} screenOptions={{
       tabBarActiveTintColor:Color.primary.one,
       tabBarStyle:{
-        backgroundColor:Color.primary.three,
+        backgroundColor:theme === "dark" ? Color.primary.three : Color.primary.Four
       }
     }}>
       <Tab.Screen name="hometop" component={topNavigation} options={{

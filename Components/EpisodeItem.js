@@ -17,6 +17,8 @@ import { useVideoContext } from "./VideoContext";
 import { setStatusBarHidden } from "expo-status-bar";
 import VideoPlayer from "expo-video-player";
 import VideoPlayerModal from "./VideoPlayerModal";
+import { Color } from "../utilities/Color";
+import { useColorScheme } from "react-native";
 
 const EpisodeItem = ({ titleEpisode, img,nav, press,videoLink }) => {
   const videoRef = useRef(null);
@@ -37,6 +39,8 @@ const EpisodeItem = ({ titleEpisode, img,nav, press,videoLink }) => {
   //     setIsPlaying(!isPlaying);
   //   }
   // };
+  const theme = useColorScheme();
+
   return (
     <View style={{ marginTop: 5 }}>
       <View style={{ flexDirection: "row", gap: 15 }}>
@@ -48,16 +52,16 @@ const EpisodeItem = ({ titleEpisode, img,nav, press,videoLink }) => {
          }} />
         </TouchableOpacity>
         <View>
-          <Text style={{ color: "white", fontSize: 15, width:250 }}>{titleEpisode}</Text>
+          <Text style={{ color: theme === "dark" ? Color.primary.Four:Color.primary.three, fontSize: 15, width:250 }}>{titleEpisode}</Text>
           <View style={{ marginLeft:150, marginTop: 10 }}>
             <View style={{ flexDirection: "row", gap: 20 }}>
               <Pressable onPress={press}>
-              <Feather name="download" color={"white"} size={20} />
+              <Feather name="download" color={theme === "dark" ? Color.primary.Four:Color.primary.three} size={20} />
               </Pressable>
               <MaterialCommunityIcons
                 name="dots-horizontal"
                 size={20}
-                color={"white"}
+                color={theme === "dark" ? Color.primary.Four:Color.primary.three}
               />
             </View>
           </View>

@@ -8,10 +8,12 @@ import CardFav from "../../Components/CardFav";
 import { PaperProvider } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteLike } from "../../redux/redux";
+import { useColorScheme } from "react-native";
 
 const Mylist = ({ navigation }) => {
   const dispatch = useDispatch();
   const state = useSelector((state)=>state.fav)
+  const theme = useColorScheme();
 
   console.log("datas ", state);
   return (
@@ -26,13 +28,13 @@ const Mylist = ({ navigation }) => {
           }}
         >
           <View>
-            <Text style={{ color: Color.primary.one, fontSize: 25 }}>
+            <Text style={{ color: theme === "dark" ? Color.primary.Four : Color.primary.three, fontSize: 25 }}>
               My list
             </Text>
           </View>
           <Pressable onPress={()=>navigation.navigate('search')}>
             <View>
-              <Feather name="search" color={"white"} size={30} />
+              <Feather name="search" color={theme === "dark" ? Color.primary.Four : Color.primary.three} size={30} />
             </View>
           </Pressable>
         </View>
@@ -46,13 +48,13 @@ const Mylist = ({ navigation }) => {
           }}
         >
           <View>
-            <Text style={{ color: Color.primary.Four, fontSize: 20 }}>
+            <Text style={{ color: theme === "dark" ? Color.primary.Four : Color.primary.three, fontSize: 20 }}>
               Recent Activity
             </Text>
           </View>
           <Pressable >
             <View>
-              <Ionicons name="options" size={24} color="white" />
+              <Ionicons name="options" size={24} color={theme === "dark" ? Color.primary.Four : Color.primary.three} />
             </View>
           </Pressable>
         </View>

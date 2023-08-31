@@ -5,8 +5,11 @@ import { Color } from '../../utilities/Color'
 import { Feather, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons/build/Icons'
 import { Pressable } from 'react-native'
 import { Image } from 'react-native'
+import { useColorScheme } from 'react-native'
 
 const Download = ({navigation}) => {
+  const theme = useColorScheme();
+
   return (
   <SafeAreaView style={{ marginLeft: 25, marginRight: 25 }}>
        <View
@@ -24,7 +27,7 @@ const Download = ({navigation}) => {
           </View>
           <Pressable onPress={()=>navigation.navigate('search')}>
             <View>
-              <Feather name="search" color={"white"} size={30} />
+              <Feather name="search" color={theme === "dark" ? Color.primary.Four : Color.primary.three} size={30} />
             </View>
           </Pressable>
         </View>
@@ -38,13 +41,13 @@ const Download = ({navigation}) => {
           }}
         >
           <View>
-            <Text style={{ color: Color.primary.Four, fontSize: 20 }}>
+            <Text style={{ color: theme === "dark" ? Color.primary.Four : Color.primary.three, fontSize: 20 }}>
               Recent Activity
             </Text>
           </View>
           <Pressable>
             <View>
-              <Ionicons name="options" size={24} color="white" />
+              <Ionicons name="options" size={24} color={theme === "dark" ? Color.primary.Four : Color.primary.three} />
             </View>
           </Pressable>
         </View>
@@ -58,8 +61,8 @@ const Download = ({navigation}) => {
             height:120
           }} />
           <View>
-          <Text style={{color:Color.primary.Four, fontSize:25}}>Naruto</Text>
-          <Text style={{color:Color.primary.Four, fontSize:10, marginTop:1}}>Episode 1</Text>
+          <Text style={{color:theme === "dark" ? Color.primary.Four : Color.primary.three, fontSize:25}}>Naruto</Text>
+          <Text style={{color:theme === "dark" ? Color.primary.Four : Color.primary.three, fontSize:10, marginTop:1}}>Episode 1</Text>
           <View style={{flexDirection:"row", alignItems:"center", gap:180}}>
             <View style={{backgroundColor:Color.primary.one, padding:5, borderRadius:5,  marginTop:10,}}>
             <Text >240MB</Text>

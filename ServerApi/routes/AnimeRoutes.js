@@ -119,7 +119,7 @@ const AnimeRoutes = (app) => {
       res.json( animes );
     } catch (error) {
       console.log(error);
-      res.status(500).json({ error: "Erreur lors du sauvegarde" });
+      res.status(500).json({ error: "No datas find" });
     }
   });
 
@@ -130,7 +130,17 @@ const AnimeRoutes = (app) => {
       res.json(seasons);
     } catch (error) {
       console.log(error);
-      res.status(500).json({ error: "Erreur lors du sauvegarde" });
+      res.status(500).json({ error: "No datas find" });
+    }
+  });
+  app.get("/episodes", async (req, res) => {
+    try {
+      const episodes = await Episodes.find()
+
+      res.json(episodes);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ error: "No datas find" });
     }
   });
 };

@@ -8,6 +8,8 @@ import { useVideoContext } from "../../../Components/VideoContext";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { changeLanguage } from "../../../redux/redux";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useColorScheme } from "react-native";
 
 const Language = ({navigation}) => {
   const {currentVideo, setCurrentVideo}=useVideoContext("English")
@@ -16,20 +18,29 @@ const Language = ({navigation}) => {
 
   useEffect(()=>{
     dispatch(changeLanguage(currentVideo));
-
+    saveLanguage()
   },)
 
+ const saveLanguage = async ()=>{
+      try {
+        await AsyncStorage.setItem('lang', state);
+      } catch (error) {
+        console.log("Data Language not save");
+      }
+  }
+  const theme = useColorScheme();
 
 
-  console.log(state);
+
+  // console.log(state);
   return (
-    <SafeAreaView style={{ backgroundColor: Color.primary.three, flex: 1 }}>
+    <SafeAreaView style={{ backgroundColor: theme === "dark" ? Color.primary.three :Color.primary.Four, flex: 1 }}>
       <View style={{ marginLeft: 25, marginRight: 25 }}>
         <View style={{ flexDirection: "row", alignItems: "center", gap: 20 }}>
           <MaterialIcons
             name="keyboard-arrow-left"
             size={40}
-            color={Color.primary.Four}
+            color={theme === "dark" ? Color.primary.Four :Color.primary.three}
           />
           <Text style={{ color: Color.primary.one, fontSize: 25 }}>
             Language
@@ -45,7 +56,7 @@ const Language = ({navigation}) => {
               marginTop: 25,
             }}
           >
-            <Text style={{ color: Color.primary.Four, fontSize: 20 }}>
+            <Text style={{ color: theme === "dark" ? Color.primary.Four :Color.primary.three, fontSize: 20 }}>
               English
             </Text>
             <CheckBox
@@ -54,7 +65,7 @@ const Language = ({navigation}) => {
               checkedIcon="dot-circle-o"
               uncheckedIcon="circle-o"
               containerStyle={{
-                backgroundColor: Color.primary.three,
+                backgroundColor: theme === "dark" ? Color.primary.three :Color.primary.Four,
               }}
               uncheckedColor={Color.primary.one}
               checkedColor={Color.primary.one}
@@ -72,7 +83,7 @@ const Language = ({navigation}) => {
               marginTop: 25,
             }}
           >
-            <Text style={{ color: Color.primary.Four, fontSize: 20 }}>
+            <Text style={{ color: theme === "dark" ? Color.primary.Four :Color.primary.three, fontSize: 20 }}>
               Arabic
             </Text>
             <CheckBox
@@ -81,7 +92,7 @@ const Language = ({navigation}) => {
               checkedIcon="dot-circle-o"
               uncheckedIcon="circle-o"
               containerStyle={{
-                backgroundColor: Color.primary.three,
+                backgroundColor: theme === "dark" ? Color.primary.three :Color.primary.Four,
               }}
               uncheckedColor={Color.primary.one}
               checkedColor={Color.primary.one}
@@ -99,7 +110,7 @@ const Language = ({navigation}) => {
               marginTop: 25,
             }}
           >
-            <Text style={{ color: Color.primary.Four, fontSize: 20 }}>
+            <Text style={{ color: theme === "dark" ? Color.primary.Four :Color.primary.three, fontSize: 20 }}>
               Deutsch
             </Text>
             <CheckBox
@@ -108,7 +119,7 @@ const Language = ({navigation}) => {
               checkedIcon="dot-circle-o"
               uncheckedIcon="circle-o"
               containerStyle={{
-                backgroundColor: Color.primary.three,
+                backgroundColor: theme === "dark" ? Color.primary.three :Color.primary.Four,
               }}
               uncheckedColor={Color.primary.one}
               checkedColor={Color.primary.one}
@@ -126,7 +137,7 @@ const Language = ({navigation}) => {
               marginTop: 25,
             }}
           >
-            <Text style={{ color: Color.primary.Four, fontSize: 20 }}>
+            <Text style={{ color: theme === "dark" ? Color.primary.Four :Color.primary.three, fontSize: 20 }}>
               Italiano
             </Text>
             <CheckBox
@@ -135,7 +146,7 @@ const Language = ({navigation}) => {
               checkedIcon="dot-circle-o"
               uncheckedIcon="circle-o"
               containerStyle={{
-                backgroundColor: Color.primary.three,
+                backgroundColor: theme === "dark" ? Color.primary.three :Color.primary.Four,
               }}
               uncheckedColor={Color.primary.one}
               checkedColor={Color.primary.one}
@@ -153,7 +164,7 @@ const Language = ({navigation}) => {
               marginTop: 25,
             }}
           >
-            <Text style={{ color: Color.primary.Four, fontSize: 20 }}>
+            <Text style={{ color: theme === "dark" ? Color.primary.Four :Color.primary.three, fontSize: 20 }}>
               Espagnol (Espana)
             </Text>
             <CheckBox
@@ -162,7 +173,7 @@ const Language = ({navigation}) => {
               checkedIcon="dot-circle-o"
               uncheckedIcon="circle-o"
               containerStyle={{
-                backgroundColor: Color.primary.three,
+                backgroundColor: theme === "dark" ? Color.primary.three :Color.primary.Four,
               }}
               uncheckedColor={Color.primary.one}
               checkedColor={Color.primary.one}
@@ -181,7 +192,7 @@ const Language = ({navigation}) => {
               marginTop: 25,
             }}
           >
-            <Text style={{ color: Color.primary.Four, fontSize: 20 }}>
+            <Text style={{ color: theme === "dark" ? Color.primary.Four :Color.primary.three, fontSize: 20 }}>
               Français
             </Text>
             <CheckBox
@@ -190,7 +201,7 @@ const Language = ({navigation}) => {
               checkedIcon="dot-circle-o"
               uncheckedIcon="circle-o"
               containerStyle={{
-                backgroundColor: Color.primary.three,
+                backgroundColor: theme === "dark" ? Color.primary.three :Color.primary.Four,
               }}
               uncheckedColor={Color.primary.one}
               checkedColor={Color.primary.one}
@@ -208,7 +219,7 @@ const Language = ({navigation}) => {
               marginTop: 25,
             }}
           >
-            <Text style={{ color: Color.primary.Four, fontSize: 20 }}>
+            <Text style={{ color: theme === "dark" ? Color.primary.Four :Color.primary.three, fontSize: 20 }}>
               Portugues
             </Text>
             <CheckBox
@@ -217,7 +228,7 @@ const Language = ({navigation}) => {
               checkedIcon="dot-circle-o"
               uncheckedIcon="circle-o"
               containerStyle={{
-                backgroundColor: Color.primary.three,
+                backgroundColor: theme === "dark" ? Color.primary.three :Color.primary.Four,
               }}
               uncheckedColor={Color.primary.one}
               checkedColor={Color.primary.one}

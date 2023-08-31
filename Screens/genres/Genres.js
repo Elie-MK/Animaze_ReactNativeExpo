@@ -6,6 +6,7 @@ import { Feather, Ionicons } from "@expo/vector-icons/build/Icons";
 import CardGenres from "../../Components/CardGenres";
 import { ImageBackground } from "react-native";
 import Database from "../../bd";
+import { useColorScheme } from "react-native";
 
 const Genres = ({navigation}) => {
 
@@ -15,6 +16,8 @@ const Genres = ({navigation}) => {
     const data = Database.find(data=>data.type=="genres")
   setGenre(data.datas)
   })
+  const theme = useColorScheme();
+
   return (
     <SafeAreaView style={{ marginLeft: 25, marginRight: 25 }}>
       <View
@@ -30,7 +33,7 @@ const Genres = ({navigation}) => {
         </View>
         <Pressable onPress={()=>navigation.navigate('search')}>
           <View>
-            <Feather name="search" color={"white"} size={30} />
+            <Feather name="search" color={theme === "dark" ? Color.primary.Four : Color.primary.three} size={30} />
           </View>
         </Pressable>
       </View>

@@ -6,6 +6,8 @@ import { ScrollView } from "react-native";
 import Database from "../../bd";
 import { FlatList } from "react-native";
 import { AnimeDatas } from "../../Api";
+import { useColorScheme } from "react-native";
+import { Color } from "../../utilities/Color";
 
 const HomeScreen = ({ navigation }) => {
   const [allDatas, setAllDatas] = useState([]);
@@ -28,16 +30,16 @@ const HomeScreen = ({ navigation }) => {
   const handleFav=()=>{
     setFav(!fav)
   }
+  const theme = useColorScheme();
 
 
   return (
     <View>
-      <StatusBar barStyle={"light-content"} />
       <ScrollView>
         <View>
           <Text
             style={{
-              color: "white",
+              color: theme === "dark" ? Color.primary.Four : Color.primary.three,
               fontSize: 20,
               marginLeft: 7,
               marginBottom: 7,

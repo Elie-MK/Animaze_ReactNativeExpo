@@ -1,4 +1,4 @@
-import { View, Text, Pressable, Image, ActivityIndicator } from "react-native";
+import { View, Text, Pressable, Image, ActivityIndicator, StatusBar } from "react-native";
 import React, { useEffect, useState } from "react";
 import {
   FontAwesome,
@@ -14,10 +14,12 @@ import StarRating from "../Components/StarRating";
 import { useDispatch, useSelector } from "react-redux";
 import { addLike, deleteLike } from "../redux/redux";
 import { Episode, Season } from "../Api";
+import { useColorScheme } from "react-native";
 
 const Description = ({ navigation, route }) => {
   const { item } = route.params;
   // const { id } = item;
+  const theme = useColorScheme();
 
   const [star, setStar] = useState(1);
   const [dataEpisode, setDataEpisode] = useState([]);
@@ -86,7 +88,7 @@ const Description = ({ navigation, route }) => {
   
 
   return (
-    <View style={{ backgroundColor: Color.primary.three, height: "100%" }}>
+    <View style={{ backgroundColor: theme === "dark" ? Color.primary.three:Color.primary.Four, height: "100%" }}>
       <View>
         <Image
           resizeMode="cover"
@@ -157,7 +159,7 @@ const Description = ({ navigation, route }) => {
             >
               {item.titleAnime}
             </Text>
-            <Text style={{ fontSize: 10, color: Color.primary.Four }}>
+            <Text style={{ fontSize: 10, color: theme === "dark" ? Color.primary.Four:Color.primary.three }}>
               Serie.{item.year}
             </Text>
           </View>
@@ -167,7 +169,7 @@ const Description = ({ navigation, route }) => {
             >
               <StarRating star={item.stars} />
             </View>
-            <Text style={{ color: Color.primary.Four }}>
+            <Text style={{ color: theme === "dark" ? Color.primary.Four:Color.primary.three }}>
               Average {item.stars}
             </Text>
           </View>
@@ -176,7 +178,7 @@ const Description = ({ navigation, route }) => {
         <View>
           <Text
             style={{
-              color: Color.primary.Four,
+              color: theme === "dark" ? Color.primary.Four:Color.primary.three,
               marginTop: 10,
               marginBottom: 10,
               textAlign: "justify",
@@ -188,7 +190,7 @@ const Description = ({ navigation, route }) => {
           <View>
             <Text
               style={{
-                color: Color.primary.Four,
+                color: theme === "dark" ? Color.primary.Four:Color.primary.three,
                 marginTop: 10,
                 fontWeight: "bold",
                 fontSize: 20,
@@ -202,12 +204,12 @@ const Description = ({ navigation, route }) => {
                   <MaterialIcons
                     name="arrow-drop-down"
                     size={40}
-                    color={Color.primary.Four}
+                    color={theme === "dark" ? Color.primary.Four:Color.primary.three}
                   />
                 </Pressable>
                 <Text
                   style={{
-                    color: Color.primary.Four,
+                    color: theme === "dark" ? Color.primary.Four:Color.primary.three,
                     padding: 10,
                     fontSize: 15,
                   }}

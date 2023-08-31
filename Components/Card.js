@@ -6,6 +6,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import { Pressable } from "react-native";
 import { TouchableOpacity } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import { useColorScheme } from "react-native";
 
 const Card = ({image, animeTitle, navigation, press }) => {
 
@@ -16,6 +17,7 @@ const handleFav=()=>{
   setFav(!fav)
 }
 // console.log(state?.detail?.id?);
+const theme = useColorScheme();
 
   return (
     <View style={{ marginLeft:7, marginRight:5 }}>
@@ -28,7 +30,7 @@ const handleFav=()=>{
         }}
         style={{ borderRadius: 10 }}
       />
-      <Text style={{ color: Color.primary.Four, padding: 5, width: 150, textAlign:"justify" }}>{animeTitle}</Text>
+      <Text style={{ color: theme === "dark" ? Color.primary.Four : Color.primary.three, padding: 5, width: 150, textAlign:"justify" }}>{animeTitle}</Text>
       </TouchableOpacity>
       <Pressable
         onPress={handleFav}

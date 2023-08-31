@@ -7,6 +7,7 @@ import { useState } from "react";
 import { Image } from "react-native";
 import { AntDesign, FontAwesome } from "@expo/vector-icons";
 import { Episode } from "../Api";
+import { useColorScheme } from "react-native";
 
 const Search = ({navigation}) => {
   const [value, setValue] = useState("");
@@ -31,14 +32,16 @@ const Search = ({navigation}) => {
     );
     setFilteredPosts(filtered);
   };
+  const theme = useColorScheme();
 
-  // console.log(filteredPosts);
+
+  console.log(posts);
   return (
-    <SafeAreaView style={{ backgroundColor: Color.primary.three, flex: 1 }}>
+    <SafeAreaView style={{ backgroundColor: theme === "dark" ? Color.primary.three:Color.primary.Four, flex: 1 }}>
       <View style={{ marginLeft: 25, marginRight: 25 }}>
         <SearchBar
           platform="ios"
-          containerStyle={{ backgroundColor: Color.primary.three }}
+          containerStyle={{ backgroundColor: theme === "dark" ? Color.primary.three:Color.primary.Four }}
           inputContainerStyle={{ backgroundColor: "#525050" }}
           inputStyle={{ color: Color.primary.Four }}
           loadingProps={{}}
@@ -49,7 +52,7 @@ const Search = ({navigation}) => {
           placeholderTextColor="#888"
           cancelButtonTitle="Cancel"
           value={value}
-          cancelButtonProps={{ color: Color.primary.Four }}
+          cancelButtonProps={{ color: theme === "dark" ? Color.primary.Four:Color.primary.three }}
         />
         <View
           style={{
@@ -58,7 +61,7 @@ const Search = ({navigation}) => {
             alignContent: "center",
           }}
         >
-          <Text style={{ color: Color.primary.Four, fontSize: 18 }}>
+          <Text style={{ color: theme === "dark" ? Color.primary.Four:Color.primary.three, fontSize: 18 }}>
             Recent Searchs
           </Text>
           <Text style={{ color: Color.primary.one, fontSize: 18 }}>Clear</Text>
@@ -85,14 +88,14 @@ const Search = ({navigation}) => {
                 style={{ borderRadius: 10 }}
               />
               <View style={{ flexDirection: "row", gap: 40, alignItems: "center" }}>
-                <Text style={{ color: Color.primary.Four, fontSize: 20, width:140 }}>
+                <Text style={{ color: theme === "dark" ? Color.primary.Four:Color.primary.three, fontSize: 20, width:140 }}>
                   {item.titleEpisode}
                 </Text>
               <TouchableOpacity onPress={()=>navigation.navigate('videoplayer', {item})}>
               <AntDesign
                   name="playcircleo"
                   size={24}
-                  color={Color.primary.Four}
+                  color={theme === "dark" ? Color.primary.Four:Color.primary.three}
                 />
               </TouchableOpacity>
               </View>

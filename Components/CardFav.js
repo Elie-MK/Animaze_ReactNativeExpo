@@ -3,9 +3,12 @@ import React, { useState } from "react";
 import { FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
 import { Color } from "../utilities/Color";
 import { Button, Divider, Menu } from "react-native-paper";
+import { useColorScheme } from "react-native";
 
 const CardFav = ({ navSup, navDesc, navPlay, img,title,pressdelete }) => {
   const [visible, setVisible] = useState(false);
+  const theme = useColorScheme();
+
   return (
     <View>
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
@@ -27,10 +30,10 @@ const CardFav = ({ navSup, navDesc, navPlay, img,title,pressdelete }) => {
           />
 
           <View>
-            <Text style={{ fontSize: 25, color: Color.primary.Four }}>
+            <Text style={{ fontSize: 25, color: theme === "dark" ? Color.primary.Four : Color.primary.three}}>
               {title}
             </Text>
-            <Text style={{ fontSize: 10, color: Color.primary.Four }}>
+            <Text style={{ fontSize: 10, color: theme === "dark" ? Color.primary.Four : Color.primary.three}}>
               Start Watching: S1E1
             </Text>
           </View>
@@ -48,7 +51,7 @@ const CardFav = ({ navSup, navDesc, navPlay, img,title,pressdelete }) => {
                   <MaterialCommunityIcons
                     name="dots-horizontal"
                     size={20}
-                    color={"white"}
+                    color={theme === "dark" ? Color.primary.Four : Color.primary.three }
                   />
                 </Pressable>
               }
@@ -56,19 +59,19 @@ const CardFav = ({ navSup, navDesc, navPlay, img,title,pressdelete }) => {
               contentStyle={{ backgroundColor: Color.primary.one }}
             >
               <Menu.Item
-                titleStyle={{ color: Color.primary.Four }}
+                titleStyle={{ color: theme === "dark" ? Color.primary.Four : Color.primary.three}}
                 onPress={navSup}
                 title="Delete"
               />
               <Divider />
               <Menu.Item
-                titleStyle={{ color: Color.primary.Four }}
+                titleStyle={{ color: theme === "dark" ? Color.primary.Four : Color.primary.three}}
                 onPress={navDesc}
                 title="View Description"
               />
               <Divider />
               <Menu.Item
-                titleStyle={{ color: Color.primary.Four }}
+                titleStyle={{ color: theme === "dark" ? Color.primary.Four : Color.primary.three}}
                 onPress={navPlay}
                 title="Play"
               />
