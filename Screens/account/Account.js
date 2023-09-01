@@ -48,11 +48,11 @@ const Account = ({ navigation, route }) => {
   };
   useEffect(() => {
     getLanguage();
-  }, []);
+  }, [navigation]);
 
-  const darMode = ()=> {
+  // const darMode = ()=> {
     
-  }
+  // }
 
 
 
@@ -172,7 +172,9 @@ const Account = ({ navigation, route }) => {
               }}
             >
               <Text style={{ color: theme === "dark" ? Color.primary.Four : Color.primary.two, fontSize: 20 }}>
-                {lang && state}
+                {
+                  state.length < 1 ? lang : state
+                }
               </Text>
               <MaterialIcons
                 name="keyboard-arrow-right"
@@ -331,3 +333,5 @@ const Account = ({ navigation, route }) => {
 };
 
 export default Account;
+
+

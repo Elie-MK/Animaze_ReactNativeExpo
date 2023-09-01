@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View, Text, Pressable } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native";
 import { Color } from "../../../utilities/Color";
@@ -37,11 +37,13 @@ const Language = ({navigation}) => {
     <SafeAreaView style={{ backgroundColor: theme === "dark" ? Color.primary.three :Color.primary.Four, flex: 1 }}>
       <View style={{ marginLeft: 25, marginRight: 25 }}>
         <View style={{ flexDirection: "row", alignItems: "center", gap: 20 }}>
-          <MaterialIcons
+         <Pressable onPress={()=>navigation.goBack()}>
+         <MaterialIcons
             name="keyboard-arrow-left"
             size={40}
             color={theme === "dark" ? Color.primary.Four :Color.primary.three}
           />
+         </Pressable>
           <Text style={{ color: Color.primary.one, fontSize: 25 }}>
             Language
           </Text>
