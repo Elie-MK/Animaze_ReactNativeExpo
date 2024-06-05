@@ -35,7 +35,6 @@ const Search = ({navigation}) => {
   const theme = useColorScheme();
 
 
-  // console.log(posts);
   return (
     <SafeAreaView style={{ backgroundColor: theme === "dark" ? Color.primary.three:Color.primary.Four, flex: 1 }}>
       <View style={{ marginLeft: 25, marginRight: 25 }}>
@@ -47,7 +46,7 @@ const Search = ({navigation}) => {
           loadingProps={{}}
           selectionColor={Color.primary.one}
           onChangeText={(newVal) => setValue(newVal)}
-          onClearText={() => console.log(onClearText())}
+          onClearText={() => onClearText()}
           placeholder="Search"
           placeholderTextColor="#888"
           cancelButtonTitle="Cancel"

@@ -16,7 +16,6 @@ const [fav, setFav]=useState(false)
 const handleFav=()=>{
   setFav(!fav)
 }
-// console.log(state?.detail?.id?);
 const theme = useColorScheme();
 
   return (

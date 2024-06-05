@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native";
 import Card from "../../Components/Card";
 import { ScrollView } from "react-native";
-import Database from "../../bd";
+import Database from "../../utilities/bd";
 import { FlatList } from "react-native";
 import { AnimeDatas } from "../../Api";
 import { useColorScheme } from "react-native";

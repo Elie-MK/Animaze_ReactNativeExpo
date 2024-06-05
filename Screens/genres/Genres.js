@@ -5,7 +5,7 @@ import { Color } from "../../utilities/Color";
 import { Feather, Ionicons } from "@expo/vector-icons/build/Icons";
 import CardGenres from "../../Components/CardGenres";
 import { ImageBackground } from "react-native";
-import Database from "../../bd";
+import Database from "../../utilities/bd";
 import { useColorScheme } from "react-native";
 
 const Genres = ({navigation}) => {

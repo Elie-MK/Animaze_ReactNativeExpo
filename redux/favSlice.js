@@ -13,7 +13,6 @@ const favSlice = createSlice({
       );
       if (product) {
         product.qte = product.qte + 1;
-        console.log(state);
       } else {
         state.push(action.payload);
       }
@@ -24,7 +23,6 @@ const favSlice = createSlice({
       );
       if (product) {
         product.qte = product.qte - 1;
-        console.log(state);
       } else {
         state.push(action.payload);
       }

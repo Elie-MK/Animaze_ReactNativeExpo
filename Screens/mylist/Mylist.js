@@ -15,7 +15,6 @@ const Mylist = ({ navigation }) => {
   const state = useSelector((state)=>state.fav)
   const theme = useColorScheme();
 
-  console.log("datas ", state);
   return (
     <PaperProvider>
       <SafeAreaView style={{ marginLeft: 25, marginRight: 25 }}>

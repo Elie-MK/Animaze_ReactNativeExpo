@@ -1,12 +1,8 @@
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, FlatList, Dimensions, ActivityIndicator } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Button } from "@rneui/base";
 import { Color } from "../utilities/Color";
-import { useCustomFonts } from "../utilities/fontPoppins";
-import { StatusBar } from "expo-status-bar";
-import Database from "../bd";
-import Carousel, { ParallaxImage } from "react-native-snap-carousel";
-import { Dimensions } from "react-native";
+import Database from "../utilities/bd";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Welcome = ({ navigation }) => {
@@ -33,28 +29,22 @@ const Welcome = ({ navigation }) => {
     checkToken();
   }, [navigation]);
 
-  const { fontPoppins, fontsLoaded } = useCustomFonts();
-  if (!fontsLoaded) {
-    return null;
-  }
-
-
-
-  // console.log(dataCarousel);
 
   return (
-    <View style={{ backgroundColor: Color.primary.three, height: "100%" }}>
-      <StatusBar style="light" />
-      <View>
-      <Carousel
-        data={dataCarousel}
-        renderItem={({ item }) => (
+    <View style={{ backgroundColor: Color.primary.three, height:"100%" }}>
+      <FlatList
+      horizontal
+      showsHorizontalScrollIndicator={false}
+      pagingEnabled
+      keyExtractor={(item)=>item.id.toString()}
+      data={dataCarousel}
+      renderItem={({item})=>(
           <View>
             <View>
               <Image
                 source={{uri:item.img}}
                 style={{
-                  width: "100%",
+                  width: Dimensions.get('screen').width,
                   height: 550,
                   borderBottomLeftRadius: 15,
                   borderBottomRightRadius: 15,
@@ -66,7 +56,6 @@ const Welcome = ({ navigation }) => {
                 style={{
                   color: Color.primary.Four,
                   fontSize: 28,
-                  fontFamily: fontPoppins.bold,
                 }}
               >
                 {item.title}
@@ -75,7 +64,6 @@ const Welcome = ({ navigation }) => {
               <Text
                 style={{
                   color: Color.primary.one,
-                  fontFamily: fontPoppins.regular,
                   fontSize: 30,
                   padding: 5,
                 }}
@@ -95,16 +83,12 @@ const Welcome = ({ navigation }) => {
             </View>
           </View>
         )}
-        sliderWidth={Dimensions.get("screen").width}
-        itemWidth={400}
       />
-      </View>
-
-      <View style={{ alignItems: "center" }}>
+      <View style={{ alignItems: "center", marginBottom:30 }}>
         <Button
           onPress={() => navigation.navigate("login")}
           title="Next"
-          titleStyle={{ fontFamily: fontPoppins.regular, fontSize: 20 }}
+          titleStyle={{  fontSize: 20 }}
           buttonStyle={{
             width: 340,
             padding: 13,

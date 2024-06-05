@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Alert } from "react-native";
+import { View, Text, TouchableOpacity, Alert, TouchableWithoutFeedback, Keyboard } from "react-native";
 import React, { useState } from "react";
 import { Color } from "../../utilities/Color";
 import { Image } from "react-native";
@@ -31,17 +31,13 @@ const Register = ({ navigation }) => {
       setShowAlert(true);
     } else {
       try {
-        const user = await signUp(username, email, password);
+        setIsLoading(true);
+         await signUp(username, email, password);
         navigation.navigate("login");
-        setTimeout(function () {
-          setIsLoading(!isLoading);
-        }, 2000);
-        console.log(user);
       } catch (error) {
         setShowAlert(true);
         setValue("Veuillez changer votre email ou adresse email");
         setIsLoading(false);
-        console.log(error);
       }
     }
   };
@@ -50,6 +46,7 @@ const Register = ({ navigation }) => {
   };
 
   return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <SafeAreaView
       style={{ backgroundColor: Color.primary.three, height: "100%" }}
     >
@@ -66,6 +63,7 @@ const Register = ({ navigation }) => {
       <View style={{ alignItems: "center", marginTop: "15%" }}>
         <View>
           <Input
+          disabled={isLoading}
             placeholder="Username"
             onChangeText={(e) => setUsername(e)}
             inputStyle={{ marginLeft: 10 }}
@@ -85,6 +83,7 @@ const Register = ({ navigation }) => {
         </View>
         <View>
           <Input
+          disabled={isLoading}
             placeholder="Email"
             onChangeText={(e) => setEmail(e)}
             inputStyle={{ marginLeft: 10 }}
@@ -104,6 +103,7 @@ const Register = ({ navigation }) => {
         </View>
         <View>
           <Input
+          disabled={isLoading}
             placeholder="Password"
             onChangeText={(e) => setPassword(e)}
             inputStyle={{ marginLeft: 12 }}
@@ -235,6 +235,7 @@ const Register = ({ navigation }) => {
       </View>
       <CustomAlert visible={showAlert} message={value} onClose={closeAlert} />
     </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 };
 

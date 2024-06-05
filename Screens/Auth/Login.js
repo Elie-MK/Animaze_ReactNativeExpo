@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Image, Alert } from "react-native";
+import { View, Text, TouchableOpacity, Image, Alert, TouchableWithoutFeedback, Keyboard } from "react-native";
 import React, { useState } from "react";
 import { Color } from "../../utilities/Color";
 import { SafeAreaView } from "react-native";
@@ -31,14 +31,11 @@ const Login = ({ navigation }) => {
       setShowAlert(true);
     } else {
       try {
-        setTimeout(() => {
-          setIsLoading(!isLoading);
-        }, 2000);
+        setIsLoading(true);
         const response = await signIn(email, password);
-        console.log(response);
         if (response && response.token) {
           const token = response.token;
-
+          setIsLoading(false)
           await AsyncStorage.setItem("jwtToken", token);
           navigation.replace(" ");
         }
@@ -48,7 +45,6 @@ const Login = ({ navigation }) => {
           "Connexion échouée, verifiez votre mot de passe ou adresse email"
         );
         setShowAlert(true);
-        console.log(error);
       }
     }
   };
@@ -57,6 +53,7 @@ const Login = ({ navigation }) => {
     setShowAlert(false);
   };
   return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <SafeAreaView
       style={{ backgroundColor: Color.primary.three, height: "100%" }}
     >
@@ -74,6 +71,7 @@ const Login = ({ navigation }) => {
       <View style={{ alignItems: "center", marginTop: "15%" }}>
         <View>
           <Input
+          disabled={isLoading}
             placeholder="Email"
             onChangeText={(e) => setEmail(e)}
             inputStyle={{ marginLeft: 10 }}
@@ -94,6 +92,7 @@ const Login = ({ navigation }) => {
         </View>
         <View>
           <Input
+          disabled={isLoading}
             placeholder="Password"
             onChangeText={(e) => setPassword(e)}
             inputStyle={{ marginLeft: 12 }}
@@ -248,6 +247,7 @@ const Login = ({ navigation }) => {
 
       <CustomAlert visible={showAlert} message={value} onClose={closeAlert} />
     </SafeAreaView>
+      </TouchableWithoutFeedback>
   );
 };
 

@@ -25,14 +25,12 @@ const Language = ({navigation}) => {
       try {
         await AsyncStorage.setItem('lang', state);
       } catch (error) {
-        console.log("Data Language not save");
       }
   }
   const theme = useColorScheme();
 
 
 
-  // console.log(state);
   return (
     <SafeAreaView style={{ backgroundColor: theme === "dark" ? Color.primary.three :Color.primary.Four, flex: 1 }}>
       <View style={{ marginLeft: 25, marginRight: 25 }}>

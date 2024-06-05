@@ -1,12 +1,10 @@
-import { View, Text } from "react-native";
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import HomeScreen from "../Screens/home/HomeScreen";
 import Mylist from "../Screens/mylist/Mylist";
 import Download from "../Screens/download/Download";
 import Genres from "../Screens/genres/Genres";
 import Account from "../Screens/account/Account";
-import { AntDesign, Entypo, Feather, FontAwesome, SimpleLineIcons } from "@expo/vector-icons";
+import { AntDesign, Feather, FontAwesome, SimpleLineIcons } from "@expo/vector-icons";
 import { Color } from "../utilities/Color";
 import { useColorScheme } from "react-native";
 import topNavigation from "./topNavigation";

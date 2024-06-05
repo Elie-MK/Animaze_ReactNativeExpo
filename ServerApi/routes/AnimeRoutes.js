@@ -42,7 +42,6 @@ const AnimeRoutes = (app) => {
       await newAnimes.save();
       res.json(newAnimes);
     } catch (error) {
-      console.log(error);
       res.status(500).json({ error: "Erreur lors du sauvegarde" });
     }
   });

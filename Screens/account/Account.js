@@ -34,7 +34,6 @@ const Account = ({ navigation, route }) => {
       navigation.navigate("welcome");
       setVisible(!visible);
     } catch (error) {
-      console.log(error);
     }
   };
 
@@ -43,7 +42,6 @@ const Account = ({ navigation, route }) => {
       const getLang = await AsyncStorage.getItem("lang");
       setLang(getLang);
     } catch (error) {
-      console.log("Data not find");
     }
   };
   useEffect(() => {
@@ -56,7 +54,6 @@ const Account = ({ navigation, route }) => {
 
 
 
-// console.log(state);
   return (
     <SafeAreaView style={{ marginLeft: 25, marginRight: 25 }}>
 

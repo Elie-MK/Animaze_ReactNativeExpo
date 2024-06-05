@@ -24,7 +24,6 @@ const Description = ({ navigation, route }) => {
   const [star, setStar] = useState(1);
   const [dataEpisode, setDataEpisode] = useState([]);
   const [dataSeason, setDataSeason] = useState([]);
-  const [dataApiEpisode, setDataApiEpisode] = useState([]);
   const [pickerData, setPickerData] = useState([]);
 
   const [choosenLabel, setChoosenLabel] = useState("");
@@ -62,7 +61,6 @@ const Description = ({ navigation, route }) => {
 
         setStar(item.star);
       } catch (error) {
-        console.log(error);
       }
     };
 
@@ -70,7 +68,6 @@ const Description = ({ navigation, route }) => {
   }, []);
 
   const handleSelectChange = (selectedIndex) => {
-    console.log("Selected season:", dataSeason[selectedIndex]?.titleSeason);
     setChoosenLabel(dataSeason[selectedIndex]?.titleSeason);
     setDataEpisode(dataSeason[selectedIndex]?.episodes);
     setChoosenIndex(selectedIndex); 
